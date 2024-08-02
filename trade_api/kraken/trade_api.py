@@ -28,18 +28,18 @@ def kraken_request(uri_path, data):
     headers = {}
     headers['API-Key'] = api_key
     headers['API-Sign'] = get_kraken_signature(uri_path, data, api_sec)
-    req = requests.post((api_url + uri_path), headers=headers, data=data)
+    req = requests.post((api_url + uri_path), headers=headers, data=data, timeout=60)
     return req
 
 def public_get(arg):
-    resp = requests.get(api_url+'/0/public/'+arg)
+    resp = requests.get(api_url+'/0/public/'+arg, timeout=60)
     if resp.status_code != 200:
         raise requests.ApiError('StatusCode: {}'.format(resp.status_code))
     else:
         return resp
 
 def public_get_with_pair(arg, pair):
-    resp = requests.get(api_url+'/0/public/'+arg+'?pair='+pair)
+    resp = requests.get(api_url+'/0/public/'+arg+'?pair='+pair, timeout=60)
     if resp.status_code != 200:
         raise requests.ApiError('StatusCode: {}'.format(resp.status_code))
     else:
