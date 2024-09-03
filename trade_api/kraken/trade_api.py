@@ -6,6 +6,7 @@ import requests
 import time
 import json
 import os
+from security import safe_requests
 
 api_url = 'https://api.kraken.com'
 api_key = os.environ.get('KRAKEN_API_KEY')
@@ -32,14 +33,14 @@ def kraken_request(uri_path, data):
     return req
 
 def public_get(arg):
-    resp = requests.get(api_url+'/0/public/'+arg)
+    resp = safe_requests.get(api_url+'/0/public/'+arg)
     if resp.status_code != 200:
         raise requests.ApiError('StatusCode: {}'.format(resp.status_code))
     else:
         return resp
 
 def public_get_with_pair(arg, pair):
-    resp = requests.get(api_url+'/0/public/'+arg+'?pair='+pair)
+    resp = safe_requests.get(api_url+'/0/public/'+arg+'?pair='+pair)
     if resp.status_code != 200:
         raise requests.ApiError('StatusCode: {}'.format(resp.status_code))
     else:
